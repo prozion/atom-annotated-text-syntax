@@ -1,313 +1,57 @@
-﻿name: "Tabtree"
-scopeName: "source.tabtree"
+﻿name: "Annotated Text"
+scopeName: "source.at"
 fileTypes: [
-  "tree"
-  "kg" # 'knowledge graph'
-  "mtree" # tree with multilines
-  "mkg"
-  "taxon" # taxonomy
+  "at"
+  "atxt"
 ]
 patterns: [
-  { include: "#instance" }
-  { include: "#supercategory" }
-  { include: "#category" }
-
-  { include: "#predicate_id" }
-  { include: "#predicate" }
-
-  { include: "#code" }
+  { include: "#annotation" }
+  { include: "#header1" }
+  { include: "#header2" }
+  { include: "#header3" }
+  { include: "#bold" }
   { include: "#comment" }
-  { include: "#date" }
-  { include: "#directory" }
-  { include: "#file" }
-  { include: "#hyperlink" }
-  { include: "#money" }
-  { include: "#numeric" }
-  { include: "#old" }
-  { include: "#percentage" }
-  { include: "#place" }
-  { include: "#speciallink" }
-  { include: "#specialword" }
-  { include: "#string" }
-  { include: "#time" }
-  { include: "#type" }
-  { include: "#meta" }
 ]
 repository:
-  supercategory:
+  annotation:
     patterns: [
       {
-        name: "tabtree.subject.supercategory"
-        match: "^[\\t]*?[a-z]([A-Za-zА-Яа-я0-9_\\-\\(\\)/]*)\\t"
+        name: "at.annotation"
+        match: "\\[.*?\\]"
       }
     ]
-  category:
+  header1:
     patterns: [
       {
-        # name: "keyword.control.racket"
-        name: "tabtree.subject.category"
-        # match: "^[\\t]*?([a-zа-я][A-Za-zА-Яа-яё0-9_+\\-\\(\\)/]*?)(\\s+\\b|$)"
-        match: "^[\\t]*?([_a-zа-я.][A-Za-zА-Яа-яё0-9_\\-\\(\\)\\?/]{1,}?)(?=(\\s+\\b|$|\\s+\"|\\s+\-|\\s+\+|\\s+;))"
-        # match: "^[\\t]*?([a-zа-я0-9][A-Za-zА-Яа-яё0-9_.\\-\\(\\)/]{1,}?)(?=(\\s+\\b|$|\\s+\"|\\s+\-|\\s+;|\\s+[><=]))" ; with 'foobar >w:75' remains category
-      }
-      # if starts with a digit
-      {
-        name: "tabtree.subject.category"
-        match: "^[\\t]*?([0-9\\-][A-Za-zА-Яа-яё0-9_\\-\\(\\)\\?/]+?)(?=(\\s+\\b|$|\\s+\"|\\s+\-|\\s+;))"
-      }
-      # for keyword with dots (makes possible to differ category from a date)
-      {
-        name: "tabtree.subject.category"
-        match: "^[\\t]*?([a-zа-я.α-ω][A-Za-zА-Яа-яё0-9_α-ω\\-\\+\\(\\)/]{2,}[A-Za-zА-Яа-яё0-9_.\\-\\(\\)/]+?)(?=(\\s+\\b|$|\\s+\"|\\s+\-|\\s+;))"
-      }
-      # if starting with upper-case letter
-      {
-        name: "tabtree.subject.category"
-        match: "^[\\t]*?([A-Za-zА-Яа-яё0-9_\\-\\(\\)\\?\\+/]+?)(?=(\\s$|\\t\\b|\\t;))"
+        name: "at.header1"
+        match: "#[^#]+?\n"
       }
     ]
-  instance:
+  header2:
     patterns: [
       {
-        name: "tabtree.subject.instance"
-        match: "^[\\t]*?([A-ZА-Я][A-Za-zА-Яа-яё0-9_?+\\-\\(\\)/]*?)( \\b|$)"
-      }
-      # if starts with a digit
-      {
-        name: "tabtree.subject.instance"
-        match: "^[\\t]*?([0-9\\-]+?[A-ZА-Я][A-Za-zА-Яа-яё0-9_?+\\-\\(\\)/]+?)( \\b|$)"
+        name: "at.header2"
+        match: "##[^#]+?\n"
       }
     ]
-
-  predicate:
+  header3:
     patterns: [
       {
-        name: "tabtree.predicate"
-        match: "(?<=\\s)(\\-?[^\"\t ]+?:)|(?<=::)(\\-?[^\"\t ]+?:)"
+        name: "at.header3"
+        match: "###[^#]+?\n"
       }
     ]
-  predicate_id:
+  bold:
     patterns: [
       {
-        name: "tabtree.predicate.predicate_id"
-        match: "(?<=\\s)(\\-?[^\"\t :]+?::)"
-      }
-    ]
-
-  code:
-    patterns: [
-      {
-        name: "tabtree.object.code"
-        match: "`.*?`"
+        name: "at.bold"
+        match: "(?<=\\*\\*).+?(?=\\*\\*)"
       }
     ]
   comment:
     patterns: [
       {
-        name: "tabtree.comment"
-        # captures:
-        #   "1":
-        #     name: "punctuation.definition.comment.racket"
-        match: "(;).*$\\n?"
-      }
-    ]
-  date:
-    patterns: [
-      {
-        name: "tabtree.object.date"
-        match: "(?<=(:|,|-|=))~?(((BC|AD)-)?([0-9x]{2}\\.)?((([0x][1-9xqh])|([1x][012x]))\\.)?[0-9xqh]{4}\\??|((17|18|19|20)[0-9xqh]{2})\\??|(BC|AD)-[0-9xqh]{1,4})(?=(\\s|,|:|-|\\^))"
-      }
-      # date with seasons
-      {
-        name: "tabtree.object.date"
-        match: "(winter|spring|summer|autumn)\\.[0-9x]{1,4}(?=(\\s|,|-|\\^))"
-      }
-      # for date as a key:
-      {
-        name: "tabtree.object.date"
-        match: "(?<=\t)(((BC|AD)-)?\
-										([0-9x]{2}(\\+[1-9y]{1,2})?\\.)?\
-										((([0x][1-9x])|([1x][012x]))\\??\\.)?\
-										[0-9x]{4}|((17|18|19|20)[0-9x]{2})|(BC|AD)-\\d{1,4})\
-								(\\?|~|>)?(?=\\s)"
-      }
-    ]
-  directory:
-    patterns: [
-      {
-        name: "tabtree.object.filesystem_object.directory"
-        match: "(?<=dir:).*?(?=\\s)|\
-                (?<=folder:).*?(?=\\s|:)"
-      }
-    ]
-  file:
-    patterns: [
-      {
-        name: "tabtree.object.filesystem_object.file"
-        match: "(?<=path:).*?(?=\\s|:)|\
-                (?<=namespace:).*?(?=\\s|:)|\
-                (?<=ref:).*?(?=\\s|:)|\
-                (?<=tabtree:).*?(?=\\s|:)|\
-                (?<=file:).*?(?=\\s|:)"
-      }
-    ]
-  hyperlink:
-    patterns: [
-      {
-        name: "tabtree.object.link.hyperlink"
-        # match: "(?<=\")http.*?(?=\")"
-        match: "(?<=blog:).*?(?=\\s)|\
-                (?<=dtd:).*?(?=\\s)|\
-                (?<=dsc:).*?(?=\\s)|\
-                (?<= doc:).*?(?=\\s)|\
-                (?<=email:).*?(?=\\s)|\
-                (?<=facebook:).*?(?=\\s)|\
-                (?<= fb:).*?(?=\\s)|\
-                (?<=gitlab:).*?(?=\\s)|\
-                (?<=github:).*?(?=\\s)|\
-                (?<=gmail:).*?(?=\\s)|\
-                (?<=gplus:).*?(?=\\s)|\
-                (?<=is-defined-by:).*?(?=\\s)|\
-                (?<= iri:).*?(?=\\s)|\
-                (?<=imports:).*?(?=\\s)|\
-                (?<= insta:).*?(?=\\s)|\
-                (?<=instagram:).*?(?=\\s)|\
-                (?<=moikrug:).*?(?=\\s)|\
-                (?<=my-mail:).*?(?=\\s)|\
-                (?<= ns:).*?(?=\\s)|\
-                (?<=-ns:).*?(?=\\s)|\
-                (?<=linkedin:).*?(?=\\s)|\
-                (?<=odnoklassniki:).*?(?=\\s)|\
-                (?<= ok:).*?(?=\\s)|\
-                (?<= owl:).*?(?=\\s)|\
-                (?<=rdf:).*?(?=\\s)|\
-                (?<=rss:).*?(?=\\s)|\
-                (?<= spec:).*?(?=\\s)|\
-                (?<=strava:).*?(?=\\s)|\
-                (?<=telegram:).*?(?=\\s)|\
-                (?<= tg:).*?(?=\\s)|\
-                (?<=twitter:).*?(?=\\s)|\
-                (?<= twi:).*?(?=\\s)|\
-                (?<= uri:).*?(?=\\s)|\
-                (?<= url:).*?(?=\\s)|\
-                (?<=-url:).*?(?=\\s)|\
-                (?<= vk:).*?(?=\\s)|\
-                (?<=vkontakte:).*?(?=\\s)|\
-                (?<=wiki:).*?(?=\\s)|\
-                (?<=wikipedia:).*?(?=\\s)|\
-                (?<= xsd:).*?(?=\\s)|\
-                (?<=xmlns:).*?(?=\\s)|\
-                (?<= yt:).*?(?=\\s)|\
-                (?<=youtube:).*?(?=\\s)
-                "
-        # match: "(?<=\")http//[A-Za-z0-9\-/.]+?(?=\")"
-        # match: "(?<=:)[A-Za-z0-9\-]+\\.[A-Za-z0-9/.\-]+\\.(ru|by|ua|no|se|de|com|net|org|us|uk|info|io)"
-      }
-    ]
-  money:
-    patterns: [
-      {
-        name: "tabtree.object.money"
-        match: "(?<=[:,])[~<>]?[0-9]([0-9\\-,.]*?[0-9])?([GBMK]|[GBMK]?(NOK|SEK|DKK|GBP|EUR|BYN|KZT|GEL|UAH|RUB|kr|[$RE]))"
-      }
-    ]
-  numeric:
-    patterns: [
-      {
-        name: "tabtree.object.numeric"
-        match: "(?<=:|,|-|(\\s|:)-)([<~>]?[\\-+]?[0-9\\.]+)(?=[\\s,-])"
-      }
-    ]
-  old:
-    patterns: [
-      {
-        name: "tabtree.object.old"
-        match: "(?<=-old:)[^\t ]+"
-      }
-    ]
-  percentage:
-    patterns: [
-      {
-        name: "tabtree.object.percentage"
-        match: "[~<>]?[0-9.\-]+%%?"
-      }
-    ]
-  place:
-    patterns: [
-      {
-        name: "tabtree.object.place"
-        match: "(?<=city:).*?(?=\\s|:)|(?<=city-en:).*?(?=\\s)|\
-        (?<=town:).*?(?=\\s|:)|\
-        (?<=hq:).*?(?=\\s|:)|\
-        (?<=ht:).*?(?=\\s|:)|\
-        (?<=place:).*?(?=\\s|:)"
-      }
-    ]
-  speciallink:
-    patterns: [
-      {
-        name: "tabtree.object.link.special"
-        match: "(?<=doi:).*?(?=\\s)|\
-                (?<=uoi:).*?(?=\\s)|\
-                (?<=usenet:).*?(?=\\s)|\
-                (?<=special-link:).*?(?=\\s)
-                "
-      }
-    ]
-  specialword:
-    patterns: [
-      {
-        name: "tabtree.object.specialword"
-        match: "<(exists|t|true|f|false|null|\\.\\.\\.|unique|others|none|undefined|ignored|empty|current|start|end|self|gen-id|yes|no|all|na|oos|source|sink|active|inactive|out-of-service|nothing|project|etc|opensource|\\.|\\?)>"
-        # oos = out of service
-      }
-      # cardinality
-      {
-        name: "tabtree.object.specialword"
-        match: "<(zero|one|many|\\*|0|1|n)>"
-        # oos = out of service
-      }
-    ]
-  string:
-    patterns: [
-      {
-        name: "tabtree.object.string"
-        match: "(\"[^\"]*?\")"
-      }
-    ]
-  time:
-    patterns: [
-      {
-        name: "tabtree.object.time"
-        match: "~?([0-9x]?[0-9x]:)?[0-6x]?[0-9x]:([0-5x][0-9x])?(w|h|mo|tu|we|th|fr|sa|su|-)*"
-      }
-      {
-        name: "tabtree.object.time"
-        match: "(?<=time:).*?(?=\\s)|\
-                (?<=-time:).*?(?=\\s)|\
-                (?<=freq:).*?(?=\\s)|\
-                (?<=-freq:).*?(?=\\s)
-                "
-      }
-    ]
-  type:
-    patterns: [
-      {
-        name: "tabtree.object.type"
-        match: "(?<= t:).*?(?=\\s)|\
-                (?<= type:).*?(?=\\s)|\
-                (?<=-type:).*?(?=\\s)
-                "
-      }
-    ]
-  meta:
-    patterns: [
-      {
-        name: "tabtree.suffix.meta"
-        match: "\\^[^\\s,]+"
-      }
-      {
-        name: "tabtree.suffix.meta"
-        match: "(?<=_s:).*?(?=\\s)"
+        name: "at.comment"
+        match: "(###).*$\\n?"
       }
     ]

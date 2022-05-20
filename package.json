@@ -1,15 +1,15 @@
 {
-  "name": "language-tabtree",
-  "version": "0.1.0",
-  "description": "Tabtree graph description syntax support for Atom",
-  "repository": "https://github.com/prozion/language-tabtree",
+  "name": "language-annotated-text",
+  "version": "0.0.1",
+  "description": "Ontology inline annotations syntax support for Atom",
+  "repository": "https://github.com/prozion/atom-annotated-text-syntax",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/prozion/language-tabtree.git"
+    "url": "https://github.com/prozion/atom-annotated-text-syntax.git"
   },
   "dependencies": {}
 }
