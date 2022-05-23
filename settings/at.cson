@@ -1,6 +1,6 @@
 ".source.at":
   editor:
-    commentStart: "###"
-  whitespace: 
+    commentStart: ";;"
+  whitespace:
     ensureSingleTrailingNewline: false
     removeTrailingWhitespace: false

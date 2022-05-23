@@ -5,19 +5,28 @@ fileTypes: [
   "atxt"
 ]
 patterns: [
-  { include: "#annotation" }
   { include: "#header1" }
   { include: "#header2" }
   { include: "#header3" }
+  { include: "#header4" }
   { include: "#bold" }
+  { include: "#annotation_group" }
+  { include: "#annotation" }
   { include: "#comment" }
 ]
 repository:
+  annotation_group:
+    patterns: [
+      {
+        name: "at.annotation_group"
+        match: "\\[\\[.*?\\]\\]"
+      }
+    ]
   annotation:
     patterns: [
       {
         name: "at.annotation"
-        match: "\\[.*?\\]"
+        match: "\\[[^\\]\\[]*\\]"
       }
     ]
   header1:
@@ -41,6 +50,13 @@ repository:
         match: "###[^#]+?\n"
       }
     ]
+  header4:
+    patterns: [
+      {
+        name: "at.header4"
+        match: "####[^#]+?\n"
+      }
+    ]
   bold:
     patterns: [
       {
@@ -52,6 +68,6 @@ repository:
     patterns: [
       {
         name: "at.comment"
-        match: "(###).*$\\n?"
+        match: "(;;).*$\\n?"
       }
     ]

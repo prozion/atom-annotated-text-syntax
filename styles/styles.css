@@ -1,6 +1,8 @@
 .syntax--at.syntax--annotation { color: #696; }
-.syntax--at.syntax--header1 { font-size: 160%; line-height: 100% }
-.syntax--at.syntax--header2 { font-size: 140%; }
-.syntax--at.syntax--header3 { font-size: 120%; }
+.syntax--at.syntax--annotation_group { font-weight:bold; color: #696; }
+.syntax--at.syntax--header1 { font-size: 160%; line-height: 100%; }
+.syntax--at.syntax--header2 { font-size: 130%; line-height: 80%; }
+.syntax--at.syntax--header3 { font-size: 120%; line-height: 100%; }
+.syntax--at.syntax--header4 { font-weight: bold; color: 600; }
 .syntax--at.syntax--bold { font-weight: bold; }
 .syntax--at.syntax--comment { color: #aaa; }
