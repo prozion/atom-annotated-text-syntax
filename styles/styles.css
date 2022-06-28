@@ -1,3 +1,5 @@
+.syntax--at.syntax--document { font-weight:bold; color: #966; }
+.syntax--at.syntax--section { color: #966; }
 .syntax--at.syntax--annotation { color: #696; }
 .syntax--at.syntax--annotation_group { font-weight:bold; color: #696; }
 .syntax--at.syntax--header1 { font-size: 160%; line-height: 100%; }

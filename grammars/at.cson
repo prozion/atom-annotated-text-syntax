@@ -10,11 +10,27 @@ patterns: [
   { include: "#header3" }
   { include: "#header4" }
   { include: "#bold" }
+  { include: "#document" }
+  { include: "#section" }
   { include: "#annotation_group" }
   { include: "#annotation" }
   { include: "#comment" }
 ]
 repository:
+  document:
+    patterns: [
+      {
+        name: "at.document"
+        match: "\\{{.*?\\}}"
+      }
+    ]
+  section:
+    patterns: [
+      {
+        name: "at.section"
+        match: "\\{[^{]*?\\}"
+      }
+    ]
   annotation_group:
     patterns: [
       {
